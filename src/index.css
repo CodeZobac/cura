@@ -1,0 +1,330 @@
+@import "../styles/globals.css";
+
+@layer base {
+  :root {
+    @apply font-sans;
+  }
+
+  body {
+    @apply min-w-[320px] min-h-screen relative m-0 bg-background text-foreground;
+  }
+}
+
+/* ─── App Layout ──────────────────────────────────────────────── */
+
+.app-container {
+  max-width: min(820px, 100%);
+  margin: 0 auto;
+  padding: 1rem 1.5rem 3rem;
+  min-height: 100vh;
+}
+
+.app-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: var(--foreground);
+  letter-spacing: -0.02em;
+}
+
+.app-subtitle {
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--muted-foreground);
+  margin-bottom: 1rem;
+}
+
+/* ─── Progress Bar ────────────────────────────────────────────── */
+
+.progress-bar-container {
+  width: 100%;
+  height: 6px;
+  background: var(--muted);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 0.25rem;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #4f8cff, #7c5cfc, #c26dfc);
+  border-radius: 999px;
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.progress-text {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  margin-bottom: 1rem;
+}
+
+/* ─── Navigation ──────────────────────────────────────────────── */
+
+.navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.nav-counter {
+  font-size: 1rem;
+  font-weight: 600;
+  min-width: 120px;
+  text-align: center;
+}
+
+/* ─── Day Card ────────────────────────────────────────────────── */
+
+.day-card {
+  border: none;
+  box-shadow: 0 2px 24px rgba(0,0,0,0.06);
+}
+
+.day-card.locked {
+  opacity: 0.6;
+}
+
+/* ─── Prayer Text ─────────────────────────────────────────────── */
+
+.oracao-container {
+  background: linear-gradient(135deg, rgba(79, 140, 255, 0.04), rgba(194, 109, 252, 0.04));
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  scrollbar-width: thin;
+}
+
+.oracao-line {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--foreground);
+}
+
+.oracao-spacer {
+  height: 0.75rem;
+}
+
+.oracao-container .oracao-line:first-child {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--primary);
+}
+
+/* ─── Complete Button ─────────────────────────────────────────── */
+
+.complete-btn {
+  background: linear-gradient(135deg, #4f8cff, #7c5cfc);
+  color: white;
+  font-weight: 600;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.complete-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(79, 140, 255, 0.3);
+}
+
+/* ─── Completed State / Photo Reveal ──────────────────────────── */
+
+.completed-reveal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.completed-reveal.animate-in {
+  animation: fadeSlideUp 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.photo-reveal {
+  width: 100%;
+  max-width: 400px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.day-photo {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  max-height: 400px;
+}
+
+.afirmacao {
+  font-size: 1.05rem;
+  color: var(--primary);
+  padding: 0.75rem 1rem;
+  line-height: 1.6;
+  max-width: 400px;
+}
+
+/* ─── Celebration (Day 90) ────────────────────────────────────── */
+
+.celebration-card {
+  border: 2px solid transparent;
+  background-image: linear-gradient(var(--card), var(--card)),
+    linear-gradient(135deg, #FFD700, #FF6B6B, #4ECDC4, #7c5cfc, #FFD700);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  overflow: visible;
+}
+
+.celebration-message {
+  animation: fadeSlideUp 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ─── Confetti ────────────────────────────────────────────────── */
+
+.confetti-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.confetti-piece {
+  position: absolute;
+  top: -10px;
+  border-radius: 2px;
+  animation: confetti-fall linear forwards;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Onboarding ─────────────────────────────────────────────────────────── */
+
+.onboarding-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.onboarding-card {
+  width: 100%;
+  max-width: 480px;
+  border: none;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.08);
+}
+
+.onboarding-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(124, 92, 252, 0.1);
+  margin: 0 auto;
+}
+
+.onboarding-icon.failed-icon {
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.onboarding-welcome {
+  font-size: 0.95rem;
+  color: var(--muted-foreground);
+  line-height: 1.7;
+  text-align: center;
+}
+
+.onboarding-fail-message {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  color: var(--muted-foreground);
+  line-height: 1.7;
+  text-align: center;
+  padding: 1rem;
+  background: rgba(245, 158, 11, 0.06);
+  border-radius: var(--radius);
+  border-left: 3px solid rgba(245, 158, 11, 0.5);
+}
+
+/* ─── Loading / Error ─────────────────────────────────────────── */
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  font-size: 1.1rem;
+  color: var(--muted-foreground);
+}
+
+.error-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  font-size: 1.1rem;
+  color: var(--destructive);
+  text-align: center;
+  padding: 2rem;
+}
+
+/* ─── Responsive ──────────────────────────────────────────────── */
+
+@media (max-width: 480px) {
+  .app-container {
+    padding: 0.75rem 1rem 2rem;
+  }
+
+  .app-title {
+    font-size: 1.25rem;
+  }
+
+  .oracao-container {
+    padding: 1rem;
+    max-height: 40vh;
+  }
+
+  .oracao-line {
+    font-size: 0.875rem;
+  }
+}
+
+@media (prefers-reduced-motion) {
+  *,
+  ::before,
+  ::after {
+    animation: none !important;
+  }
+}

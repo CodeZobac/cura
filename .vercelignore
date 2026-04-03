@@ -6,7 +6,6 @@ styles/
 bunfig.toml
 tsconfig.json
 components.json
-build.ts
 bun-env.d.ts
 
 # Raw family photos (served from dist/familia/ after build)

@@ -1,5 +1,5 @@
 {
-  "buildCommand": "bun install && bun build.ts",
+  "buildCommand": "bun run ./build.ts",
   "outputDirectory": "dist",
   "installCommand": "bun install",
   "framework": null

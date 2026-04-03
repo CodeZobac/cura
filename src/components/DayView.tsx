@@ -101,7 +101,7 @@ export function DayView({
           <div className="photo-reveal">
             <img
               src={`/familia/${encodeURIComponent(photo)}`}
-              alt="Foto da família"
+              alt="-----"
               className="day-photo"
             />
           </div>

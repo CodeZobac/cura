@@ -52,7 +52,7 @@ export function App() {
     // User exists but no cycle — init one
     if (!cycle) {
       try {
-        const res = await fetch("/api/photos");
+        const res = await fetch("/photos.json");
         const photos: string[] = await res.json();
         if (photos.length === 0) {
           setState({ status: "error", message: "Nenhuma foto encontrada na pasta Familia." });
@@ -81,7 +81,7 @@ export function App() {
   const handleOnboardingStart = useCallback(async (name: string) => {
     saveUser(name);
     try {
-      const res = await fetch("/api/photos");
+      const res = await fetch("/photos.json");
       const photos: string[] = await res.json();
       if (photos.length === 0) {
         setState({ status: "error", message: "Nenhuma foto encontrada na pasta Familia." });

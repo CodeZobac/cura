@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 import plugin from "bun-plugin-tailwind";
 import { existsSync } from "fs";
-import { rm } from "fs/promises";
+import { cp, readdir, writeFile, mkdir } from "fs/promises";
 import path from "path";
 
 if (process.argv.includes("--help") || process.argv.includes("-h")) {
@@ -112,6 +112,7 @@ const outdir = cliConfig.outdir || path.join(process.cwd(), "dist");
 
 if (existsSync(outdir)) {
   console.log(`🗑️ Cleaning previous build at ${outdir}`);
+  const { rm } = await import("fs/promises");
   await rm(outdir, { recursive: true, force: true });
 }
 
@@ -147,3 +148,31 @@ console.table(outputTable);
 const buildTime = (end - start).toFixed(2);
 
 console.log(`\n✅ Build completed in ${buildTime}ms\n`);
+
+// ─── Post-build: copy Familia images + emit photos.json ─────────────────────
+
+const FAMILIA_SRC = path.resolve(process.cwd(), "Familia");
+const FAMILIA_DEST = path.join(outdir, "familia");
+
+await mkdir(FAMILIA_DEST, { recursive: true });
+
+const allFiles = await readdir(FAMILIA_SRC);
+const photoFiles = allFiles.filter(f => {
+  const ext = path.extname(f).toLowerCase();
+  return ext === ".jpg" || ext === ".jpeg";
+});
+
+// Copy every image file (jpg/jpeg)
+await Promise.all(
+  photoFiles.map(f => cp(path.join(FAMILIA_SRC, f), path.join(FAMILIA_DEST, f))),
+);
+
+// Write static photo list consumed by the React app
+await writeFile(
+  path.join(outdir, "photos.json"),
+  JSON.stringify(photoFiles),
+  "utf-8",
+);
+
+console.log(`📸 Copied ${photoFiles.length} photos → dist/familia/`);
+console.log(`📄 Wrote dist/photos.json\n`);

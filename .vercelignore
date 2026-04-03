@@ -1,0 +1,18 @@
+# Source files (already bundled into dist/)
+src/
+styles/
+
+# Development config
+bunfig.toml
+tsconfig.json
+components.json
+build.ts
+bun-env.d.ts
+
+# Raw family photos (served from dist/familia/ after build)
+Familia/
+
+# Misc
+node_modules/
+*.sqlite
+.git/

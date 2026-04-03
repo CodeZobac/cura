@@ -12,7 +12,7 @@ function familiaPhotosPlugin(): Plugin {
       const dest = path.resolve(__dirname, "dist", "familia");
       mkdirSync(dest, { recursive: true });
 
-      const photos = readdirSync(src).filter((f) => /\.jpe?g$/i.test(f));
+      const photos = readdirSync(src).filter((f) => /\.webp$/i.test(f));
 
       for (const f of photos) {
         cpSync(path.join(src, f), path.join(dest, f));
